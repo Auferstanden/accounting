@@ -78,7 +78,7 @@ export default {
         }
       },
       set (input) {
-        if (input.length == 0) {
+        if (input.length === 0) {
           this.value = null
           return
         }
@@ -95,7 +95,7 @@ export default {
         const num = Number(value)
 
         /*
-        if (this.key == "Backspace") {
+        if (this.key === "Backspace") {
           if (!Number.isNaN(num)) {
             this.value = num;
           } else {
@@ -115,7 +115,7 @@ export default {
   },
   methods: {
     commit () {
-      if (this.value == null) {
+      if (this.value === null) {
         this.value = this.minValue
       }
       this.$forceUpdate()
@@ -123,7 +123,7 @@ export default {
     },
     emitChange () {
       let value = this.value
-      if (value == null) {
+      if (value === null) {
         value = this.minValue
       }
       if (this.emittedValue !== value) {
