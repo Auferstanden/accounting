@@ -193,8 +193,6 @@ export default {
         el.querySelectorAll('.Field')[x].focus()
       }
 
-      console.log(new Date().getSeconds(), x, y)
-
       if (x < 0 || y < 0) {
         if (self.records.length > 0) {
           self.setPointer({ y: 0 })
@@ -230,7 +228,6 @@ export default {
               x: self.pointer.x || 0,
               y: index
             })
-            console.log(index + 'にしました')
           }
         })
       }, 0)
