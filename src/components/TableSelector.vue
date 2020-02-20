@@ -8,12 +8,12 @@
           selected: year === selectedYear
         }"
         @click="selectedYear = year"
-        v-show="selectedYear == null || year == selectedYear"
+        v-show="selectedYear === null || year === selectedYear"
       >
         {{ year }}年
       </li>
     </ul>
-    <ul class="options" v-if="selectedYear != null">
+    <ul class="options" v-if="selectedYear !== null">
       <li
         v-for="month in months"
         :key="month"
@@ -21,13 +21,13 @@
           selected: month === selectedMonth
         }"
         @click="selectedMonth = month"
-        v-show="selectedMonth == null || month == selectedMonth"
+        v-show="selectedMonth === null || month === selectedMonth"
       >
         {{ month }}月
       </li>
     </ul>
-    <p v-if="selectedYear == null">金銭出納表の年を選択してください。</p>
-    <p v-else-if="selectedMonth == null">金銭出納表の月を選択してください。</p>
+    <p v-if="selectedYear === null">金銭出納表の年を選択してください。</p>
+    <p v-else-if="selectedMonth === null">金銭出納表の月を選択してください。</p>
     <p v-else>
       {{ selectedYear }}年{{
         selectedMonth
@@ -38,29 +38,29 @@
 
 <script>
 export default {
-  name: "TableSelector",
+  name: 'TableSelector',
   computed: {
-    years() {
-      var tables = this.$store.getters.tables;
-      var years = Object.keys(tables);
+    years () {
+      var tables = this.$store.getters.tables
+      var years = Object.keys(tables)
 
-      return years;
+      return years
     },
-    months() {
-      var tables = this.$store.getters.tables;
-      var target = tables[this.selectedYear];
+    months () {
+      var tables = this.$store.getters.tables
+      var target = tables[this.selectedYear]
 
-      return Object.keys(target);
+      return Object.keys(target)
     }
   },
-  data() {
+  data () {
     return {
       selectedYear: null,
       selectedMonth: null
-    };
+    }
   },
   components: {}
-};
+}
 </script>
 
 <style scoped lang="stylus">

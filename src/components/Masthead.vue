@@ -9,8 +9,8 @@
 
 <script>
 export default {
-  name: "Masthead"
-};
+  name: 'Masthead'
+}
 </script>
 
 <style scoped lang="stylus">

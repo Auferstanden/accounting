@@ -4,7 +4,7 @@
     contenteditable
     @keypress="
       event => {
-        if (event.key == 'Enter') {
+        if (event.key === 'Enter') {
           if (!event.shiftKey) {
             event.target.blur();
             return false;
@@ -33,19 +33,19 @@
 
 <script>
 export default {
-  name: "TextField",
+  name: 'TextField',
   props: {
     defaultValue: String
   },
-  data() {
+  data () {
     return {
       value: this.defaultValue
-    };
+    }
   },
   methods: {
-    emitChange() {
-      this.$emit("_change", this.value);
+    emitChange () {
+      this.$emit('_change', this.value)
     }
   }
-};
+}
 </script>

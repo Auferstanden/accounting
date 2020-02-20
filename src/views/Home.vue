@@ -7,18 +7,18 @@
 </template>
 
 <script>
-import Masthead from "@/components/Masthead";
-import TableSelector from "@/components/TableSelector";
-import TableSwitchBar from "@/components/TableSwitchBar";
+import Masthead from '@/components/Masthead'
+import TableSelector from '@/components/TableSelector'
+import TableSwitchBar from '@/components/TableSwitchBar'
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     Masthead,
     TableSelector,
     TableSwitchBar
   }
-};
+}
 </script>
 
 <style scoped lang="stylus">

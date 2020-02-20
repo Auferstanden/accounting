@@ -7,13 +7,13 @@
 
 <script>
 export default {
-  name: "Button",
+  name: 'Button',
   props: {
     labelValue: String,
     canGetFocus: Boolean,
     disabled: Boolean
   }
-};
+}
 </script>
 
 <style scoped lang="stylus">

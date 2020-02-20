@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import Button from "@/components/Button";
+import Button from '@/components/Button'
 
 export default {
-  name: "EditTools",
+  name: 'EditTools',
   props: {
     isDisabled: Boolean,
     canAdd: Boolean,
@@ -43,7 +43,7 @@ export default {
   components: {
     Button
   }
-};
+}
 </script>
 
 <style scoped lang="stylus">

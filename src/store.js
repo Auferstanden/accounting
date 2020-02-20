@@ -1,7 +1,7 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
@@ -9,82 +9,82 @@ export default new Vuex.Store({
   },
   getters: {
     records: state => {
-      return state.records;
+      return state.records
     },
     tables: state => {
-      var result = {};
+      var result = {}
 
-      var records = state.records;
+      var records = state.records
 
-      for (let id in records) {
-        var record = records[id];
-        var year = record.date.year;
-        var month = record.date.month;
+      for (const id in records) {
+        var record = records[id]
+        var year = record.date.year
+        var month = record.date.month
 
-        result[year] = result[year] || {};
-        result[year][month] = result[year][month] || [];
+        result[year] = result[year] || {}
+        result[year][month] = result[year][month] || []
 
-        result[year][month].push(record);
+        result[year][month].push(record)
       }
 
-      return result;
+      return result
     },
     getRecordsByYearAndMonth: state => (year, month) => {
       var recordSatisfies = (record, y, m) => {
-        var satisfiesYear = record.date.year === y;
-        var satisfiesMonth = record.date.month === m;
+        var satisfiesYear = record.date.year === y
+        var satisfiesMonth = record.date.month === m
 
-        return satisfiesYear && satisfiesMonth;
-      };
+        return satisfiesYear && satisfiesMonth
+      }
 
-      var result = [];
+      var result = []
 
-      var records = state.records;
+      var records = state.records
 
-      for (let id in records) {
-        var record = records[id];
+      for (const id in records) {
+        var record = records[id]
 
         if (recordSatisfies(record, year, month)) {
-          result.push(record);
+          result.push(record)
         }
       }
 
-      return result.sort((a, b) => a.date.day - b.date.day);
+      return result.sort((a, b) => a.date.day - b.date.day)
     }
   },
   mutations: {
-    addRecord(state, data) {
+    addRecord (state, data) {
       Vue.set(
         state.records,
         data.id,
         Object.assign(data, {
-          type: data.type || "",
-          detail: data.detail || "",
+          type: data.type || '',
+          detail: data.detail || '',
           amountReceived: data.amountReceived || 0,
           amountInvested: data.amountInvested || 0,
           dateCreated: Date.now()
         })
-      );
+      )
     },
-    updateRecord(state, data) {
-      let id = data.id;
-      state.records[id] = Object.assign(state.records[id], data);
+    updateRecord (state, data) {
+      const id = data.id
+      state.records[id] = Object.assign(state.records[id], data)
     },
-    deleteRecord(state, id) {
-      Vue.delete(state.records, id);
+    deleteRecord (state, id) {
+      Vue.delete(state.records, id)
     }
   },
   actions: {
-    addRecord({ getters, commit }, data) {
-      let id = window.app.generateUuid();
-      commit("addRecord", Object.assign(data, { id }));
-      return getters.records[id];
+    addRecord ({ getters, commit }, data) {
+      const id = window.app.generateUuid()
+      commit('addRecord', Object.assign(data, { id }))
+      return getters.records[id]
     },
-    updateRecord({ commit }, data) {
-      commit("updateRecord", data);
+    updateRecord ({ commit }, data) {
+      commit('updateRecord', data)
     },
-    deleteRecord({ commit }, id) {
-      commit("deleteRecord", id);
+    deleteRecord ({ commit }, id) {
+      commit('deleteRecord', id)
     }
   }
-});
+})

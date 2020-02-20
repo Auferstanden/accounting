@@ -20,44 +20,44 @@
 
 <script>
 export default {
-  name: "TableSwitchBar",
+  name: 'TableSwitchBar',
   computed: {
     year: {
-      get() {
+      get () {
         return (
           Number(this.$route.params.year) || Number(new Date().getFullYear())
-        );
+        )
       },
-      set(year) {
-        if (year == -1) {
-          this.year = window.prompt();
+      set (year) {
+        if (year === -1) {
+          this.year = window.prompt()
         } else {
           this.$router.replace({
-            name: "table",
+            name: 'table',
             params: {
               year,
               month: this.month
             }
-          });
+          })
         }
       }
     },
     month: {
-      get() {
-        return Number(this.$route.params.month);
+      get () {
+        return Number(this.$route.params.month)
       },
-      set(month) {
+      set (month) {
         this.$router.replace({
-          name: "table",
+          name: 'table',
           params: {
             year: this.year,
             month
           }
-        });
+        })
       }
     }
   }
-};
+}
 </script>
 
 <style scoped lang="stylus">

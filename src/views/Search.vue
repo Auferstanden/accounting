@@ -10,16 +10,16 @@
 </template>
 
 <script>
-import Masthead from "@/components/Masthead";
-import TableSelector from "@/components/TableSelector";
+import Masthead from '@/components/Masthead'
+import TableSelector from '@/components/TableSelector'
 
 export default {
-  name: "search",
+  name: 'search',
   components: {
     Masthead,
     TableSelector
   }
-};
+}
 </script>
 
 <style scoped lang="stylus">

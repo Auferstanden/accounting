@@ -3,7 +3,7 @@
     <EditTools
       :can-add="true"
       @_add="addRecord(pointer.y)"
-      :can-delete="pointer.y != null"
+      :can-delete="pointer.y !== null"
       @_delete="deleteRecord(pointer.y)"
       :can-export="true"
       @_export="exportRecords()"
@@ -89,7 +89,7 @@
           <td class="balance">{{ getBalance(index) }}</td>
         </tr>
 
-        <tr class="footer" v-if="records.length != 0">
+        <tr class="footer" v-if="records.length !== 0">
           <th>
             <span tabindex="0" @focus="addRecord()"></span>
             合計
@@ -118,185 +118,181 @@
 </template>
 
 <script>
-import TextField from "@/components/TextField";
-import DigitField from "@/components/DigitField";
-import EditTools from "@/components/EditTools";
-import Button from "@/components/Button";
-import Masthead from "@/components/Masthead";
-import TableSwitchBar from "@/components/TableSwitchBar";
-import { setTimeout } from "timers";
+import TextField from '@/components/TextField'
+import DigitField from '@/components/DigitField'
+import EditTools from '@/components/EditTools'
+import TableSwitchBar from '@/components/TableSwitchBar'
+import { setTimeout } from 'timers'
 
 export default {
-  data() {
+  data () {
     return {
       pointer: {
         x: null,
         y: null
       }
-    };
+    }
   },
   computed: {
-    year() {
-      return Number(this.$route.params.year);
+    year () {
+      return Number(this.$route.params.year)
     },
-    month() {
-      return Number(this.$route.params.month);
+    month () {
+      return Number(this.$route.params.month)
     },
-    records() {
+    records () {
       var records = this.$store.getters.getRecordsByYearAndMonth(
         this.year,
         this.month
-      );
+      )
 
-      return records;
+      return records
     },
-    sumOfAmountInvested() {
-      let records = this.records;
-      let result = 0;
+    sumOfAmountInvested () {
+      const records = this.records
+      let result = 0
 
       records.forEach(record => {
-        result += record.amountInvested;
-      });
+        result += record.amountInvested
+      })
 
-      return result.toLocaleString();
+      return result.toLocaleString()
     },
-    sumOfAmountReceived() {
-      let records = this.records;
-      let result = 0;
+    sumOfAmountReceived () {
+      const records = this.records
+      let result = 0
 
       records.forEach(record => {
-        result += record.amountReceived;
-      });
+        result += record.amountReceived
+      })
 
-      return result.toLocaleString();
+      return result.toLocaleString()
     },
-    sumOfBalance() {
-      return this.getBalance();
+    sumOfBalance () {
+      return this.getBalance()
     },
-    lastRecord() {
-      return this.records.reverse()[0] || null;
+    lastRecord () {
+      return this.records.slice(0).reverse()[0] || null
     }
   },
   components: {
     TextField,
     DigitField,
     EditTools,
-    Button,
-    Masthead,
     TableSwitchBar
   },
   methods: {
-    setPointer({ x = this.pointer.x, y = this.pointer.y }) {
-      let self = this;
-      self.pointer.x = x;
-      self.pointer.y = y;
+    setPointer ({ x = this.pointer.x, y = this.pointer.y }) {
+      const self = this
+      self.pointer.x = x
+      self.pointer.y = y
 
-      focus = record => {
-        let id = record.id;
-        let el = self.$refs[id][0];
-        el.querySelectorAll(".Field")[x].focus();
-      };
+      const focus = record => {
+        const id = record.id
+        const el = self.$refs[id][0]
+        el.querySelectorAll('.Field')[x].focus()
+      }
 
-      console.log(new Date().getSeconds(), x, y);
+      console.log(new Date().getSeconds(), x, y)
 
       if (x < 0 || y < 0) {
         if (self.records.length > 0) {
-          self.setPointer({ y: 0 });
+          self.setPointer({ y: 0 })
         } else {
-          self.setPointer({ x: null, y: null });
+          self.setPointer({ x: null, y: null })
         }
-        return;
+        return
       }
 
-      let record = self.records[y];
+      const record = self.records[y]
 
-      if (x != null && y != null) {
+      if (x !== null && y !== null) {
         if (record) {
-          focus(record);
+          focus(record)
         } else {
           this.addRecord().then(record => {
-            focus(record);
-          });
+            focus(record)
+          })
         }
       } else {
       }
     },
-    focusOn(record) {
-      let self = this;
+    focusOn (record) {
+      const self = this
 
-      setTimeout(function() {
-        let id = record.id;
-        let el = self.$refs[id][0];
-        let records = self.$el.querySelectorAll(".record");
+      setTimeout(function () {
+        const id = record.id
+        const el = self.$refs[id][0]
+        const records = self.$el.querySelectorAll('.record')
         records.forEach((record, index) => {
-          if (record == el) {
+          if (record === el) {
             self.setPointer({
               x: self.pointer.x || 0,
               y: index
-            });
-            console.log(index + "にしました");
+            })
+            console.log(index + 'にしました')
           }
-        });
-      }, 0);
+        })
+      }, 0)
     },
-    addRecord(y = null) {
-      let date = {
+    addRecord (y = null) {
+      const date = {
         year: this.year,
         month: this.month
-      };
+      }
 
-      let records = this.records;
+      const records = this.records
 
-      if (y != null) {
-        let record = records[y];
-        date.day = record.date.day;
+      if (y !== null) {
+        const record = records[y]
+        date.day = record.date.day
       } else {
-        let lastRecord = this.lastRecord;
+        const lastRecord = this.lastRecord
         if (lastRecord) {
-          date.day = lastRecord.date.day;
+          date.day = lastRecord.date.day
         } else {
-          date.day = 1;
+          date.day = 1
         }
       }
 
-      let self = this;
+      const self = this
 
-      return this.$store.dispatch("addRecord", { date }).then(record => {
-        let el = self.$refs[record.id][0];
+      return this.$store.dispatch('addRecord', { date }).then(record => {
+        const el = self.$refs[record.id][0]
         el.scrollIntoView({
-          behavior: "auto",
-          block: "center",
-          inline: "center"
-        });
-        self.focusOn(record);
-        return record;
-      });
+          behavior: 'auto',
+          block: 'center',
+          inline: 'center'
+        })
+        self.focusOn(record)
+        return record
+      })
     },
-    deleteRecord(row) {
-      let record = this.records[row];
-      let self = this;
-      let targetIsLastRecord = self.lastRecord == record;
+    deleteRecord (row) {
+      const record = this.records[row]
+      const self = this
+      const targetIsLastRecord = self.lastRecord === record
 
-      return this.$store.dispatch("deleteRecord", record.id).then(() => {
+      return this.$store.dispatch('deleteRecord', record.id).then(() => {
         if (targetIsLastRecord) {
-          self.setPointer({ y: self.pointer.y - 1 });
+          self.setPointer({ y: self.pointer.y - 1 })
         } else {
-          self.setPointer({ y: self.pointer.y });
+          self.setPointer({ y: self.pointer.y })
         }
-      });
+      })
     },
-    exportRecords() {
-      let records = this.$store.getters.records;
-      let json = JSON.stringify(records);
-      let uri = "data:application/json;charset=utf-8," + encodeURI(json);
-      let el = document.createElement("a");
-      el.href = uri;
-      el.download = `${Date.now()}.json`;
-      document.body.appendChild(el);
-      el.click();
-      el.remove();
+    exportRecords () {
+      const records = this.$store.getters.records
+      const json = JSON.stringify(records)
+      const uri = 'data:application/json;charset=utf-8,' + encodeURI(json)
+      const el = document.createElement('a')
+      el.href = uri
+      el.download = `${Date.now()}.json`
+      document.body.appendChild(el)
+      el.click()
+      el.remove()
     },
-    importRecords() {},
+    importRecords () {},
     /*
     exportTable() {
       let csv = this.$store.getters.getTableByYearAndMonthInCsv(
@@ -312,32 +308,32 @@ export default {
       el.remove();
     },
     */
-    getBalance(index) {
-      let records = null;
-      if (index != undefined) {
-        records = this.records.slice(0, index + 1);
+    getBalance (index) {
+      let records = null
+      if (index !== undefined) {
+        records = this.records.slice(0, index + 1)
       } else {
-        records = this.records;
+        records = this.records
       }
-      let amounts = [];
-      let result = 0;
+      const amounts = []
+      let result = 0
 
-      for (let i in records) {
-        let record = records[i];
-        let amount = 0;
-        amount += record.amountReceived;
-        amount += record.amountInvested * -1;
-        amounts.push(amount);
+      for (const i in records) {
+        const record = records[i]
+        let amount = 0
+        amount += record.amountReceived
+        amount += record.amountInvested * -1
+        amounts.push(amount)
       }
 
       amounts.forEach(amount => {
-        result += amount;
-      });
+        result += amount
+      })
 
-      return result.toLocaleString();
+      return result.toLocaleString()
     }
   }
-};
+}
 </script>
 
 <style scoped lang="stylus">

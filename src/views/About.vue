@@ -4,9 +4,9 @@
 
 <script>
 export default {
-  name: "About",
+  name: 'About',
   components: {}
-};
+}
 </script>
 
 <style scoped lang="stylus"></style>
